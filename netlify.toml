@@ -1,0 +1,5 @@
+[[redirects]]
+  from   = "https://ciphercrown.cmpe272.rishikeshaluguvelli.me/*"
+  to     = "/cipher-crown/:splat"
+  status = 200
+  force  = true

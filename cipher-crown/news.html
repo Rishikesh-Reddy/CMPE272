@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Latest news and dispatches from Cipher & Crown Technologies.">
+  <title>News &amp; Dispatches — Cipher &amp; Crown Technologies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .news-tag-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+      justify-content: center;
+    }
+    .news-tag {
+      padding: 0.35rem 0.9rem;
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: var(--gray-light);
+      background: transparent;
+    }
+    .news-tag:hover, .news-tag.active { border-color: var(--gold-dim); color: var(--gold); background: rgba(201,168,76,0.06); }
+
+    .newsletter-band {
+      padding: 4rem 2rem;
+      background: var(--bg-2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    .newsletter-band h3 { font-family: var(--font-display); font-size: 1.5rem; color: var(--white); margin-bottom: 0.5rem; }
+    .newsletter-band p { font-family: var(--font-prose); font-style: italic; color: var(--gold); margin-bottom: 2rem; }
+    .newsletter-form { display: flex; gap: 1rem; justify-content: center; max-width: 500px; margin: 0 auto; }
+    .newsletter-form input {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0.75rem 1rem;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .newsletter-form input:focus { border-color: var(--gold-dim); }
+
+    .news-card-big .news-card-image.bg-1 { background: linear-gradient(135deg,#0d0a1a,#0f0f2a); }
+    .news-card-big .news-card-image.bg-2 { background: linear-gradient(135deg,#0a1a0d,#0a200d); }
+    .news-card-big .news-card-image.bg-3 { background: linear-gradient(135deg,#1a0a08,#20100a); }
+
+    .sidebar-date { font-size: 0.65rem; letter-spacing: 0.1em; color: var(--green); margin-bottom: 0.4rem; display: block; }
+    .read-time { font-size: 0.65rem; color: var(--gray); margin-left: auto; }
+
+    .news-card-thumb.nt-1 { background: linear-gradient(135deg,#0d0a1a,#101030); }
+    .news-card-thumb.nt-2 { background: linear-gradient(135deg,#0a1a0d,#0a200d); }
+    .news-card-thumb.nt-3 { background: linear-gradient(135deg,#1a0a08,#20100a); }
+    .news-card-thumb.nt-4 { background: linear-gradient(135deg,#0a0d1a,#10102a); }
+    .news-card-thumb.nt-5 { background: linear-gradient(135deg,#1a1a0a,#1a1400); }
+    .news-card-thumb.nt-6 { background: linear-gradient(135deg,#0d0a0a,#1a1010); }
+  </style>
+</head>
+<body data-page="news">
+
+<div id="nav-placeholder"></div>
+
+<main>
+  <!-- ══ PAGE HERO ══════════════════════════════════ -->
+  <section class="page-hero">
+    <div class="hex-bg"></div>
+    <span class="eyebrow">// DISPATCHES FROM THE RAVEN TOWER</span>
+    <h1>News &amp; <span style="color:var(--gold);">Intelligence</span></h1>
+    <div class="divider" style="max-width:200px;margin:1.2rem auto;"><span>🦅</span></div>
+    <p>"All ravens returned. All messages read. All threats accounted for."</p>
+  </section>
+
+  <!-- ══ FEATURED ════════════════════════════════════ -->
+  <section class="section">
+    <div class="container">
+
+      <div class="news-tag-bar reveal">
+        <button class="news-tag active">All Dispatches</button>
+        <button class="news-tag">Security</button>
+        <button class="news-tag">Product Updates</button>
+        <button class="news-tag">Company</button>
+        <button class="news-tag">Research</button>
+        <button class="news-tag">Culture</button>
+        <button class="news-tag">Industry</button>
+      </div>
+
+      <!-- Featured + Sidebar -->
+      <div class="news-featured reveal">
+        <div class="news-card-big">
+          <div class="news-card-image bg-3">
+            🔥
+          </div>
+          <div class="news-card-body">
+            <div class="news-meta">
+              <span class="badge badge-red">SECURITY</span>
+              <span class="news-date">March 10, 2026</span>
+              <span class="news-author">By Mike Stark</span>
+              <span class="read-time">⏱ 4 min read</span>
+            </div>
+            <h2>Shadowfire 4.0 Defeats "Dragon Corp" Zero-Day in Under 9 Seconds — Setting a New Industry Record</h2>
+            <p class="news-excerpt">
+              At 04:23 AM on March 8th, our global sensor network registered the first transmission of a previously undocumented exploit targeting a critical buffer overflow in a widely-deployed network management library. By 04:23:09 AM, Shadowfire had detected, classified, quarantined, and begun automated rollback across all 312 affected client endpoints. Nine seconds. The previous industry benchmark was 4.2 minutes.
+            </p>
+            <p class="news-excerpt">
+              "Dragon Corp — the APT group responsible — has been active since 2022 and is believed to operate from a jurisdiction we will not name, by lawyers we will name," said Elliot Morison at the debrief. "This was their most sophisticated attempt. It will also be their last."
+            </p>
+            <a href="#" class="btn btn-outline" style="font-size:0.72rem;">Read Full Dispatch →</a>
+          </div>
+        </div>
+
+        <div class="news-sidebar">
+          <div class="news-card-sm reveal reveal-delay-1">
+            <span class="sidebar-date">Feb 28, 2026 · <span class="badge badge-gold" style="font-size:0.58rem;">PRODUCT</span></span>
+            <h3 style="font-family:var(--font-heading);font-size:0.88rem;color:var(--white);margin-bottom:0.4rem;line-height:1.4;">The Raven v3.0: "What Is Dead May Never Be Decrypted"</h3>
+            <p style="font-size:0.8rem;color:var(--gray-light);line-height:1.5;">Post-quantum cryptography, multi-party channels, and "Dragonfire" self-destruct. Our biggest release since launch.</p>
+            <a href="#" style="font-size:0.68rem;color:var(--gold);display:block;margin-top:0.75rem;">Read more →</a>
+          </div>
+          <div class="news-card-sm reveal reveal-delay-2">
+            <span class="sidebar-date">Feb 20, 2026 · <span class="badge badge-green" style="font-size:0.58rem;">CULTURE</span></span>
+            <h3 style="font-family:var(--font-heading);font-size:0.88rem;color:var(--white);margin-bottom:0.4rem;line-height:1.4;">Dr. Sheldon Kooper Wins Jeopardy! — Donates $112,400 to Open-Source Quantum Cryptography</h3>
+            <p style="font-size:0.8rem;color:var(--gray-light);line-height:1.5;">"Bazinga," he reportedly said to Alex Trebek's successor. The host did not fully understand. Neither did the other contestants.</p>
+            <a href="#" style="font-size:0.68rem;color:var(--gold);display:block;margin-top:0.75rem;">Read more →</a>
+          </div>
+          <div class="news-card-sm reveal reveal-delay-3">
+            <span class="sidebar-date">Feb 12, 2026 · <span class="badge badge-gold" style="font-size:0.58rem;">INDUSTRY</span></span>
+            <h3 style="font-family:var(--font-heading);font-size:0.88rem;color:var(--white);margin-bottom:0.4rem;line-height:1.4;">Gartner Names Cipher &amp; Crown a "Visionary" in the 2026 Endpoint Security Magic Quadrant</h3>
+            <p style="font-size:0.8rem;color:var(--gray-light);line-height:1.5;">Elliot's response: "We'd prefer 'Leader,' but we'll take it. See you next year."</p>
+            <a href="#" style="font-size:0.68rem;color:var(--gold);display:block;margin-top:0.75rem;">Read more →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- News grid -->
+      <div class="section-header" style="margin-top:5rem;margin-bottom:2rem;">
+        <div class="section-header reveal">
+          <span class="eyebrow">// RECENT DISPATCHES</span>
+          <h2>More Intelligence</h2>
+          <div class="divider"><span>★</span></div>
+        </div>
+      </div>
+
+      <div class="news-grid">
+
+        <div class="news-card reveal">
+          <div class="news-card-thumb nt-4">🧠</div>
+          <div class="news-card-content">
+            <div class="news-meta" style="margin-bottom:0.5rem;">
+              <span class="badge badge-gold" style="font-size:0.58rem;">RESEARCH</span>
+              <span class="news-date">Feb 5, 2026</span>
+            </div>
+            <h3>We Mapped Every Known Nation-State APT Cluster. Here's What Keeps Elliot Up at Night.</h3>
+            <p class="news-excerpt" style="font-size:0.82rem;margin-bottom:1rem;">
+              Our annual Threat Landscape Report drops with 148 pages of adversary profiling, TTP analysis, and one very specific warning about critical infrastructure targeting in Q3 2026.
+            </p>
+            <a href="#" class="btn btn-ghost" style="font-size:0.68rem;padding:0.5rem 1rem;">Download Report →</a>
+          </div>
+        </div>
+
+        <div class="news-card reveal reveal-delay-1">
+          <div class="news-card-thumb nt-2">📊</div>
+          <div class="news-card-content">
+            <div class="news-meta" style="margin-bottom:0.5rem;">
+              <span class="badge badge-green" style="font-size:0.58rem;">COMPANY</span>
+              <span class="news-date">Jan 29, 2026</span>
+            </div>
+            <h3>Q4 2025 Results: 203 New Clients, Zero Breaches on Monitored Infrastructure</h3>
+            <p class="news-excerpt" style="font-size:0.82rem;margin-bottom:1rem;">
+              For the third consecutive year, not a single Cipher &amp; Crown-monitored client suffered a material breach. Harvey says this is "the best closing argument we have." He is correct.
+            </p>
+            <a href="#" class="btn btn-ghost" style="font-size:0.68rem;padding:0.5rem 1rem;">Read More →</a>
+          </div>
+        </div>
+
+        <div class="news-card reveal reveal-delay-2">
+          <div class="news-card-thumb nt-5">⚖️</div>
+          <div class="news-card-content">
+            <div class="news-meta" style="margin-bottom:0.5rem;">
+              <span class="badge badge-gold" style="font-size:0.58rem;">IRON LEDGER</span>
+              <span class="news-date">Jan 22, 2026</span>
+            </div>
+            <h3>Iron Ledger Evidence Accepted in Federal Court for Sixth Consecutive Case</h3>
+            <p class="news-excerpt" style="font-size:0.82rem;margin-bottom:1rem;">
+              The Southern District of New York ruled Iron Ledger's timestamped document chain admissible — for the sixth time — as primary evidence in a $340M IP theft suit. "The ledger doesn't lie," said the judge.
+            </p>
+            <a href="#" class="btn btn-ghost" style="font-size:0.68rem;padding:0.5rem 1rem;">Read More →</a>
+          </div>
+        </div>
+
+        <div class="news-card reveal">
+          <div class="news-card-thumb nt-1">🎓</div>
+          <div class="news-card-content">
+            <div class="news-meta" style="margin-bottom:0.5rem;">
+              <span class="badge badge-green" style="font-size:0.58rem;">CULTURE</span>
+              <span class="news-date">Jan 14, 2026</span>
+            </div>
+            <h3">The Red Keep Summer Intern Cohort: 12 Interns, 3 Patents, 2 CVEs Discovered</h3>
+            <p class="news-excerpt" style="font-size:0.82rem;margin-bottom:1rem;">
+              Our summer 2025 intern class — which Sheldon insisted on interviewing personally ("I have 47 questions and you will answer all of them") — produced results that made our senior engineers mildly nervous.
+            </p>
+            <a href="#" class="btn btn-ghost" style="font-size:0.68rem;padding:0.5rem 1rem;">Read More →</a>
+          </div>
+        </div>
+
+        <div class="news-card reveal reveal-delay-1">
+          <div class="news-card-thumb nt-3">🏰</div>
+          <div class="news-card-content">
+            <div class="news-meta" style="margin-bottom:0.5rem;">
+              <span class="badge badge-red" style="font-size:0.58rem;">THE WALL</span>
+              <span class="news-date">Jan 3, 2026</span>
+            </div>
+            <h3>The Wall Blocks Record 3.1 Million Intrusion Attempts in Q4 2025</h3>
+            <p class="news-excerpt" style="font-size:0.82rem;margin-bottom:1rem;">
+              A 34% increase year-over-year. Mike Stark says: "The Wall held." It always holds. That is the point of a wall. "But 3.1 million is a number that should concern everyone."
+            </p>
+            <a href="#" class="btn btn-ghost" style="font-size:0.68rem;padding:0.5rem 1rem;">Read More →</a>
+          </div>
+        </div>
+
+        <div class="news-card reveal reveal-delay-2">
+          <div class="news-card-thumb nt-6">🌍</div>
+          <div class="news-card-content">
+            <div class="news-meta" style="margin-bottom:0.5rem;">
+              <span class="badge badge-gold" style="font-size:0.58rem;">COMPANY</span>
+              <span class="news-date">Dec 18, 2025</span>
+            </div>
+            <h3>Casterly Rock: Our London EMEA Office Is Now Fully Operational</h3>
+            <p class="news-excerpt" style="font-size:0.82rem;margin-bottom:1rem;">
+              42 engineers, 8 threat analysts, and one extremely confused building manager who was not briefed on the office naming conventions. EMEA response times: now under 15 minutes across all zones.
+            </p>
+            <a href="#" class="btn btn-ghost" style="font-size:0.68rem;padding:0.5rem 1rem;">Read More →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ NEWSLETTER ═════════════════════════════════ -->
+  <section class="newsletter-band">
+    <div class="container">
+      <div class="reveal">
+        <h3>Subscribe to The Raven Tower Dispatch</h3>
+        <p>"Weekly intelligence briefings. No noise. No spam. Only signal."</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="your@domain.com" aria-label="Email address">
+          <button class="btn btn-gold" onclick="this.textContent='✓ Raven Sent!';this.disabled=true;">
+            Subscribe
+          </button>
+        </div>
+        <p style="font-size:0.7rem;color:var(--gray);margin-top:1rem;">
+          Unsubscribe at any time. We do not sell your data. A Lannister always keeps their privacy promises.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PRESS KIT ══════════════════════════════════ -->
+  <section class="section">
+    <div class="container" style="max-width:800px;">
+      <div class="section-header reveal">
+        <span class="eyebrow">// FOR THE MAESTERS OF MEDIA</span>
+        <h2>Press Resources</h2>
+        <div class="divider"><span>📜</span></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;" class="reveal">
+        <div class="card" style="text-align:center;padding:1.5rem;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">📦</div>
+          <h3 style="font-size:0.85rem;margin-bottom:0.4rem;color:var(--gold);">Press Kit</h3>
+          <p style="font-size:0.78rem;margin-bottom:1rem;">Logos, brand assets, boilerplate copy, and executive biographies.</p>
+          <a href="#" class="btn btn-ghost" style="font-size:0.68rem;padding:0.5rem 1rem;">Download Kit</a>
+        </div>
+        <div class="card" style="text-align:center;padding:1.5rem;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">📸</div>
+          <h3 style="font-size:0.85rem;margin-bottom:0.4rem;color:var(--gold);">Media Gallery</h3>
+          <p style="font-size:0.78rem;margin-bottom:1rem;">High-resolution photos from The Red Keep and product screenshots.</p>
+          <a href="#" class="btn btn-ghost" style="font-size:0.68rem;padding:0.5rem 1rem;">View Gallery</a>
+        </div>
+        <div class="card" style="text-align:center;padding:1.5rem;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">✉️</div>
+          <h3 style="font-size:0.85rem;margin-bottom:0.4rem;color:var(--gold);">Press Enquiries</h3>
+          <p style="font-size:0.78rem;margin-bottom:1rem;">Speak with our communications team for features, interviews, or comment.</p>
+          <a href="mailto:press@cipherandcrown.io" class="btn btn-gold" style="font-size:0.68rem;padding:0.5rem 1rem;">Contact Press</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="footer-placeholder"></div>
+<script src="js/main.js"></script>
+<script>
+  // Tag filter visual (cosmetic)
+  document.querySelectorAll('.news-tag').forEach(tag => {
+    tag.addEventListener('click', function () {
+      document.querySelectorAll('.news-tag').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

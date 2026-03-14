@@ -1,0 +1,68 @@
+========================================
+CIPHER & CROWN TECHNOLOGIES
+"In the game of code, you win or you debug."
+========================================
+
+COMPANY HEADQUARTERS
+--------------------
+Name:     The Red Keep Campus
+Address:  1 Iron Throne Boulevard, Suite 1337
+City:     Silicon Landing, CA 94016
+Country:  USA
+
+CONTACT NUMBERS
+---------------
+Main:     +1 (555) 000-1337
+Support:  +1 (555) 000-HACK
+Fax:      +1 (555) 000-7749
+
+EMAIL ADDRESSES
+---------------
+General:  ravens@cipherandcrown.io
+Support:  support@cipherandcrown.io
+Press:    press@cipherandcrown.io
+Careers:  careers@cipherandcrown.io
+Security: security@cipherandcrown.io
+
+OFFICES
+-------
+Headquarters:  Silicon Landing, CA (PST)  — The Red Keep
+East Office:   New York, NY (EST)          — East Tower (Legal & Finance)
+EMEA Office:   London, UK (GMT)            — Casterly Rock Office
+
+TEAM CONTACTS
+-------------
+Name:   Elliot Morison
+Role:   CEO & Chief Architect
+Email:  e.morison@cipherandcrown.io
+
+Name:   Harvey Pearce
+Role:   COO & General Counsel
+Email:  h.pearce@cipherandcrown.io
+
+Name:   Dr. Sheldon Kooper
+Role:   Chief Science Officer
+Email:  s.kooper@cipherandcrown.io
+
+Name:   Donna Tarth
+Role:   VP of Engineering
+Email:  d.tarth@cipherandcrown.io
+
+Name:   Mike Stark
+Role:   Head of Threat Intelligence
+Email:  m.stark@cipherandcrown.io
+
+Name:   Jessica Lannister
+Role:   Chief Revenue Officer
+Email:  j.lannister@cipherandcrown.io
+
+SOCIAL
+------
+GitHub:   https://github.com/cipherandcrown
+LinkedIn: https://linkedin.com/company/cipherandcrown
+Twitter:  https://twitter.com/cipherncrown
+Discord:  https://discord.gg/cipherandcrown
+
+========================================
+Last updated: March 2026
+========================================

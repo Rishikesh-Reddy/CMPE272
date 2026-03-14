@@ -1,0 +1,92 @@
+{
+  "company": "Cipher & Crown Technologies",
+  "tagline": "In the game of code, you win or you debug.",
+  "founded": 2019,
+  "headquarters": {
+    "name": "The Red Keep Campus",
+    "address": "1 Iron Throne Boulevard, Suite 1337",
+    "city": "Silicon Landing",
+    "state": "CA",
+    "zip": "94016",
+    "country": "USA"
+  },
+  "phone": {
+    "main": "+1 (555) 000-1337",
+    "support": "+1 (555) 000-HACK",
+    "fax": "+1 (555) 000-7749"
+  },
+  "email": {
+    "general": "ravens@cipherandcrown.io",
+    "support": "support@cipherandcrown.io",
+    "press": "press@cipherandcrown.io",
+    "careers": "careers@cipherandcrown.io",
+    "security": "security@cipherandcrown.io"
+  },
+  "social": {
+    "github": "https://github.com/cipherandcrown",
+    "linkedin": "https://linkedin.com/company/cipherandcrown",
+    "twitter": "https://twitter.com/cipherncrown",
+    "discord": "https://discord.gg/cipherandcrown"
+  },
+  "offices": [
+    {
+      "city": "Silicon Landing, CA",
+      "label": "Headquarters — The Red Keep",
+      "timezone": "PST"
+    },
+    {
+      "city": "New York, NY",
+      "label": "East Tower — Legal & Finance",
+      "timezone": "EST"
+    },
+    {
+      "city": "London, UK",
+      "label": "Casterly Rock EMEA Office",
+      "timezone": "GMT"
+    }
+  ],
+  "team": [
+    {
+      "name": "Elliot Morison",
+      "role": "CEO & Chief Architect",
+      "email": "e.morison@cipherandcrown.io",
+      "department": "Executive",
+      "quote": "Every system has a vulnerability. We find yours before the enemy does. Hello, friend."
+    },
+    {
+      "name": "Harvey Pearce",
+      "role": "COO & General Counsel",
+      "email": "h.pearce@cipherandcrown.io",
+      "department": "Executive",
+      "quote": "I don't play the odds. I play the man — and I always know the angle."
+    },
+    {
+      "name": "Dr. Sheldon Kooper",
+      "role": "Chief Science Officer",
+      "email": "s.kooper@cipherandcrown.io",
+      "department": "Engineering",
+      "quote": "Bazinga! Your authentication layer has a 73.6% failure probability. I ran the math. Twice."
+    },
+    {
+      "name": "Donna Tarth",
+      "role": "VP of Engineering",
+      "email": "d.tarth@cipherandcrown.io",
+      "department": "Engineering",
+      "quote": "I swore an oath to this codebase. No branch goes unreviewed. No pull request goes unmerged without honour."
+    },
+    {
+      "name": "Mike Stark",
+      "role": "Head of Threat Intelligence",
+      "email": "m.stark@cipherandcrown.io",
+      "department": "Security",
+      "quote": "The North remembers — and so do our intrusion detection logs. Every packet. Every probe."
+    },
+    {
+      "name": "Jessica Lannister",
+      "role": "Chief Revenue Officer",
+      "email": "j.lannister@cipherandcrown.io",
+      "department": "Sales",
+      "quote": "A Lannister always closes the deal. And pays their invoices on time."
+    }
+  ]
+}
