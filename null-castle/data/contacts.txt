@@ -1,0 +1,57 @@
+# NullCastle Systems — Contact Directory
+# Lines starting with # are ignored
+# ---------------------------------------------------------------
+# FORMATS:
+#   section|Section Title
+#   contact|icon|label|href|display_value|note|color
+#   sla|label|value|color
+#   social|code|label|url
+#   person|initials|name|role|codename|email|phone|quote|avatar_color
+# ---------------------------------------------------------------
+
+# --- Meet the Team ---
+section|Meet the Team
+
+# Dinesh Chugtai — Silicon Valley's finest, now defending the realm
+person|DC|Dinesh Chugtai|Senior Backend Engineer|THE_MIDDLEWARE_KING|d.chugtai@nullcastle.example.com|+1 415 555 0182|"I optimised our packet router by 40%. Did Richard Hendricks ever do that? No. He did not."|cyan
+
+# Sheldon Cooper — Theoretical physicist turned zero-trust architect
+person|SC|Sheldon Cooper|Zero-Trust Architect|DR_COOPER|s.cooper@nullcastle.example.com|+1 415 555 0101|"I have a very specific spot in the server room. It has the optimal temperature, humidity, and distance from Raj's lunch."|amber
+
+# Gavin Belson — Visionary. Thought leader. Not currently under investigation.
+person|GB|Gavin Belson|Chief Visionary Officer|HOOLI_EXILE|g.belson@nullcastle.example.com|+1 415 555 0199|"At NullCastle we don't just disrupt cybersecurity — we make the old paradigm cry itself to sleep."|red
+
+# Michael Scott — Head of Client Happiness. Self-proclaimed World's Best Boss.
+person|MS|Michael Scott|Head of Client Relations|WORLD_BEST_BOSS|m.scott@nullcastle.example.com|+1 570 555 0192|"Would I rather be feared or loved? Easy. Both. I want people to be afraid of how much they love our service."|green
+
+# Raj Koothrappali — Dark web whisperer, fluent in 7 forum dialects
+person|RK|Raj Koothrappali|Dark Web Intelligence|THE_WHISPERER|r.koothrappali@nullcastle.example.com|+1 415 555 0177|"I can't talk to adversaries face to face but I'm absolutely devastating in underground IRC channels."|green
+
+# Elliot Alderson — Our honorary spiritual founder. Not actually on payroll.
+person|EA|Elliot Alderson|Honorary Ghost Operative|MR_ROBOT|e.alderson@nullcastle.example.com|+1 000 000 0000|"Hello, friend. Are you sure you trust the system you're trying to protect?"|dim
+
+# --- Direct Lines ---
+section|Direct Lines
+
+contact|[✉]|General Enquiries|mailto:hello@nullcastle.example.com|hello@nullcastle.example.com||cyan
+contact|[🚨]|Incident Hotline (24/7)|tel:+18005550911|+1 800 555 0911|For active incidents only. We will answer.|red
+contact|[🔐]|Responsible Disclosure|mailto:security@nullcastle.example.com|security@nullcastle.example.com|PGP key: 0xDEAD BEEF C0DE CAFE|green
+contact|[📍]|Headquarters|#|One Null Plaza, San Francisco, CA 94105|Also: London · Berlin · Singapore · Toronto|dim
+
+# --- Response Times ---
+section|Response Times
+
+sla|Active Incident (IR Client)|< 15 min|red
+sla|Security Emergency|< 2 hours|amber
+sla|Sales & Enquiries|< 24 hours|green
+sla|General / Other|< 48 hours|cyan
+
+# --- Social / Online Presence ---
+section|Find Us Online
+
+social|GH|GitHub|https://github.com
+social|LI|LinkedIn|https://linkedin.com
+social|TW|Twitter/X|https://x.com
+social|MV|Mastodon|https://mastodon.social
+social|YT|YouTube|https://youtube.com
+social|RS|RSS Feed|/rss.xml

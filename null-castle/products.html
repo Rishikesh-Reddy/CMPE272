@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en" class="page-products">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services — NullCastle Systems</title>
+  <meta name="description" content="NullCastle Systems service offerings: threat intelligence, zero-trust, incident response, red team ops, and more." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Cinzel:wght@400;700;900&family=Raleway:ital,wght@0,300;0,400;0,600;1,300&display=swap" />
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">NC</div>
+      <span class="nav-logo-text">Null<span>Castle</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html"    data-num="00">Home</a></li>
+      <li><a href="about.html"    data-num="01">About</a></li>
+      <li><a href="products.html" data-num="02" class="active">Services</a></li>
+      <li><a href="news.html"     data-num="03">News</a></li>
+      <li><a href="contact.php"   data-num="04">Contact</a></li>
+    </ul>
+    <div class="nav-status"><div class="nav-status-dot"></div>SYS:ONLINE</div>
+    <div class="nav-hamburger" role="button" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ======================================================
+     PRODUCTS HERO
+     ====================================================== -->
+<section class="products-hero section-sm">
+  <div class="container fade-in">
+    <p class="pre-title" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--glow-green); letter-spacing:0.2em; text-transform:uppercase; margin-bottom:0.5rem;">
+      &gt; ls -la /services/ | sort -h
+    </p>
+    <h1>Our <span class="glow-text-green">Arsenal</span></h1>
+    <div class="divider"></div>
+    <p style="color:var(--text-dim); max-width:580px; font-size:1.05rem;">
+      Six battle-tested service lines. Each one exists because a real threat
+      demanded a real answer. No upsells. No bloat. Just solutions that work
+      at 3am when everything is on fire.
+    </p>
+  </div>
+</section>
+
+<!-- ======================================================
+     SERVICE CARDS
+     ====================================================== -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="products-grid">
+
+      <!-- 1: Threat Intelligence -->
+      <div class="card product-card">
+        <div class="product-num">SERVICE // 001 &nbsp;<span class="tag tag-red">LIVE DATA</span></div>
+        <h3 class="glow-text-red">Threat Intelligence Platform</h3>
+        <div class="divider" style="background:linear-gradient(90deg,var(--glow-red),transparent)"></div>
+        <p class="product-desc">
+          Real-time ingestion of dark web forums, paste sites, C2 beacons and
+          underground markets. Our TIP correlates 12M+ daily events into
+          actionable, prioritised IOCs pushed directly to your SIEM.
+          Think of it as having Dmitri living inside your network — minus the
+          strong opinions about coffee.
+        </p>
+        <ul class="product-features">
+          <li>Dark web monitoring across 3,000+ forums</li>
+          <li>Custom threat actor tracking &amp; profiling</li>
+          <li>STIX/TAXII 2.1 compatible feed</li>
+          <li>CVE enrichment with exploit probability scoring</li>
+          <li>Bi-weekly executive intelligence brief</li>
+        </ul>
+        <div class="product-price">
+          <span class="price-amount">$4,200</span>
+          <span class="price-period">/month</span>
+        </div>
+        <a href="contact.php" class="btn" style="margin-top:1.5rem; color:var(--glow-red); border-color:var(--glow-red); font-size:0.75rem;">Request Trial</a>
+      </div>
+
+      <!-- 2: Zero Trust (featured) -->
+      <div class="card product-card product-featured">
+        <div class="product-badge">Most Popular</div>
+        <div class="product-num">SERVICE // 002 &nbsp;<span class="tag tag-green">RECOMMENDED</span></div>
+        <h3 class="glow-text-green">Zero-Trust Architecture</h3>
+        <div class="divider"></div>
+        <p class="product-desc">
+          Full-scope ZTA design, implementation and continuous validation.
+          We rip out implicit trust everywhere — network perimeter, identity,
+          device, workload. We rebuild with micro-segmentation, continuous
+          verification and least-privilege enforcement.
+          <br><br>
+          <em style="color:var(--glow-green); font-size:0.85rem;">"Trust no one. Not even us."</em>
+        </p>
+        <ul class="product-features">
+          <li>Identity-aware access proxy deployment</li>
+          <li>Service mesh + mTLS rollout</li>
+          <li>Policy-as-code with automated drift detection</li>
+          <li>CASB integration for SaaS apps</li>
+          <li>30-day maturity re-assessment included</li>
+        </ul>
+        <div class="product-price">
+          <span class="price-amount">$18K</span>
+          <span class="price-period">+ retainer</span>
+        </div>
+        <a href="contact.php" class="btn btn-filled" style="margin-top:1.5rem; font-size:0.75rem;">Start Assessment</a>
+      </div>
+
+      <!-- 3: Incident Response -->
+      <div class="card product-card">
+        <div class="product-num">SERVICE // 003 &nbsp;<span class="tag tag-amber">24/7 SLA</span></div>
+        <h3 style="color:var(--glow-amber)">Incident Response Retainer</h3>
+        <div class="divider" style="background:linear-gradient(90deg,var(--glow-amber),transparent)"></div>
+        <p class="product-desc">
+          When Ravi and the IR crew get paged, the clock starts. Sub-15-minute
+          acknowledgment, sub-60-minute engagement. We've handled ransomware,
+          supply-chain compromises, and one very awkward insider threat situation
+          involving a VP and a USB drive. We don't judge. We contain.
+        </p>
+        <ul class="product-features">
+          <li>15-min acknowledgment / 60-min engagement SLA</li>
+          <li>Dedicated IR commander assigned to your account</li>
+          <li>Forensic image capture &amp; chain-of-custody</li>
+          <li>Legal-ready incident report &amp; timeline</li>
+          <li>Post-incident hardening recommendations</li>
+        </ul>
+        <div class="product-price">
+          <span class="price-amount">$8,500</span>
+          <span class="price-period">/month retainer</span>
+        </div>
+        <a href="contact.php" class="btn" style="margin-top:1.5rem; color:var(--glow-amber); border-color:var(--glow-amber); font-size:0.75rem;">Get Protected</a>
+      </div>
+
+      <!-- 4: Red Team -->
+      <div class="card product-card">
+        <div class="product-num">SERVICE // 004 &nbsp;<span class="tag tag-red">ADVERSARIAL</span></div>
+        <h3 style="color:var(--glow-red)">Red Team Operations</h3>
+        <div class="divider" style="background:linear-gradient(90deg,var(--glow-red),transparent)"></div>
+        <p class="product-desc">
+          Liora and her team will attempt to break into your organisation using
+          every technique a real adversary would — phishing, physical intrusion,
+          zero-days, social engineering. We've successfully breached banks, hospitals,
+          and a particularly smug tech startup that had "unhackable" in their pitch deck.
+        </p>
+        <ul class="product-features">
+          <li>Full-scope red team (cyber + physical)</li>
+          <li>Assumed breach simulation</li>
+          <li>Social engineering &amp; vishing campaigns</li>
+          <li>Purple team collaborative debrief</li>
+          <li>Custom threat actor emulation</li>
+        </ul>
+        <div class="product-price">
+          <span class="price-amount">$24K</span>
+          <span class="price-period">/engagement</span>
+        </div>
+        <a href="contact.php" class="btn" style="margin-top:1.5rem; color:var(--glow-red); border-color:var(--glow-red); font-size:0.75rem;">Book Engagement</a>
+      </div>
+
+      <!-- 5: CastleWall OS -->
+      <div class="card product-card">
+        <div class="product-num">SERVICE // 005 &nbsp;<span class="tag tag-cyan">SOFTWARE</span></div>
+        <h3 class="glow-text-cyan">CastleWall OS</h3>
+        <div class="divider"></div>
+        <p class="product-desc">
+          A hardened, zero-trust operating system for high-assurance workloads.
+          Built on a verified microkernel, with mandatory access controls,
+          post-quantum cryptography, and a read-only root filesystem. Ships with
+          our NullCastle attestation service.
+          <br><br>
+          <em style="color:var(--glow-cyan); font-size:0.85rem;">Version 3.0 — Now GA.</em>
+        </p>
+        <ul class="product-features">
+          <li>Verified microkernel (seL4-derived)</li>
+          <li>Post-quantum TLS 1.4 stack</li>
+          <li>TPM 3.0 remote attestation</li>
+          <li>FIPS 140-3 certified crypto module</li>
+          <li>Air-gap deployment supported</li>
+        </ul>
+        <div class="product-price">
+          <span class="price-amount">$1,200</span>
+          <span class="price-period">/node/year</span>
+        </div>
+        <a href="contact.php" class="btn btn-cyan" style="margin-top:1.5rem; font-size:0.75rem;">Download Trial</a>
+      </div>
+
+      <!-- 6: CISO Advisory -->
+      <div class="card product-card">
+        <div class="product-num">SERVICE // 006 &nbsp;<span class="tag tag-amber">CONSULTING</span></div>
+        <h3 style="color:var(--glow-amber)">vCISO Advisory</h3>
+        <div class="divider" style="background:linear-gradient(90deg,var(--glow-amber),transparent)"></div>
+        <p class="product-desc">
+          Not every company needs a full-time CISO. Every company needs someone
+          who thinks like one. Our virtual CISO programme gives you a senior
+          security executive embedded in your leadership team — board-level
+          communication included. Think of it as your very own Jim Halpert,
+          except with a CISSP and without the pranks.
+        </p>
+        <ul class="product-features">
+          <li>Dedicated vCISO with industry-specific experience</li>
+          <li>Monthly board-level security briefings</li>
+          <li>Regulatory compliance roadmap (SOC2, ISO27001, NIS2)</li>
+          <li>Security hiring &amp; programme build-out support</li>
+          <li>Vendor security assessment reviews</li>
+        </ul>
+        <div class="product-price">
+          <span class="price-amount">$6,500</span>
+          <span class="price-period">/month</span>
+        </div>
+        <a href="contact.php" class="btn" style="margin-top:1.5rem; color:var(--glow-amber); border-color:var(--glow-amber); font-size:0.75rem;">Start Conversation</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     COMPARISON TABLE
+     ====================================================== -->
+<section class="section" style="background:var(--deep); border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="section-heading">
+      <p class="pre-title">&gt; diff nullcastle_vs_incumbents.txt</p>
+      <h2>Why <span class="glow-text-green">NullCastle</span>?</h2>
+      <div class="divider divider-center"></div>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table class="comparison-table" style="background:var(--card); border:1px solid var(--border); border-radius:var(--radius);">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>NullCastle</th>
+            <th>Big-4 Consulting</th>
+            <th>Generic MSSP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Dedicated account IR commander</td>
+            <td><span class="check">✓ Always</span></td>
+            <td><span class="cross">✗ Rotates</span></td>
+            <td><span class="cross">✗ Ticket queue</span></td>
+          </tr>
+          <tr>
+            <td>Dark web intelligence feed</td>
+            <td><span class="check">✓ Proprietary TIP</span></td>
+            <td><span style="color:var(--glow-amber)">◑ Licensed 3rd party</span></td>
+            <td><span class="cross">✗ Not included</span></td>
+          </tr>
+          <tr>
+            <td>Physical red team capability</td>
+            <td><span class="check">✓ In-house</span></td>
+            <td><span style="color:var(--glow-amber)">◑ Subcontracted</span></td>
+            <td><span class="cross">✗ Not offered</span></td>
+          </tr>
+          <tr>
+            <td>Post-quantum cryptography</td>
+            <td><span class="check">✓ CastleWall OS</span></td>
+            <td><span class="cross">✗ Roadmap item</span></td>
+            <td><span class="cross">✗ Not offered</span></td>
+          </tr>
+          <tr>
+            <td>&lt;15min IR acknowledgement SLA</td>
+            <td><span class="check">✓ Contractual</span></td>
+            <td><span class="cross">✗ 4-hour SLA</span></td>
+            <td><span style="color:var(--glow-amber)">◑ Best efforts</span></td>
+          </tr>
+          <tr>
+            <td>Published research &amp; CVEs</td>
+            <td><span class="check">✓ 47 CVEs disclosed</span></td>
+            <td><span style="color:var(--glow-amber)">◑ Occasional</span></td>
+            <td><span class="cross">✗ Never</span></td>
+          </tr>
+          <tr>
+            <td>Price transparency</td>
+            <td><span class="check">✓ Published rates</span></td>
+            <td><span class="cross">✗ Call for pricing</span></td>
+            <td><span class="cross">✗ Call for pricing</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-sm" style="text-align:center; border-top:1px solid var(--border);">
+  <div class="container">
+    <h2 style="margin-bottom:1rem;">Ready to <span class="glow-text-green">Fortify</span>?</h2>
+    <p style="color:var(--text-dim); margin-bottom:2rem;">No obligation. No slideshow. Just a 30-minute threat assessment call with an actual engineer.</p>
+    <a href="contact.php" class="btn btn-filled">Open Secure Channel</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">Null<span>Castle</span> Systems</div>
+        <p>Cybersecurity for the brave, the paranoid, and the ruthlessly prepared.</p>
+        <p style="font-family:var(--font-mono); font-size:0.7rem; color:var(--text-dim); margin-top:1rem;">PGP: <span style="color:var(--glow-green)">0xDEAD BEEF C0DE CAFE</span></p>
+      </div>
+      <div class="footer-col"><h4>Navigate</h4><ul>
+        <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+        <li><a href="products.html">Services</a></li><li><a href="news.html">News</a></li>
+        <li><a href="contact.php">Contact</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Services</h4><ul>
+        <li><a href="products.html">Threat Intelligence</a></li>
+        <li><a href="products.html">Zero-Trust Arch.</a></li>
+        <li><a href="products.html">Incident Response</a></li>
+        <li><a href="products.html">Red Team Ops</a></li>
+        <li><a href="products.html">CastleWall OS</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Intel</h4><ul>
+        <li><a href="news.html">Threat Reports</a></li>
+        <li><a href="news.html">White Papers</a></li>
+        <li><a href="news.html">CVE Advisories</a></li>
+        <li><a href="news.html">Press Releases</a></li>
+        <li><a href="contact.php">Bug Bounty</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 NullCastle Systems, Inc.</span>
+      <span><a href="#">Privacy</a> &nbsp;/&nbsp; <a href="#">Terms</a> &nbsp;/&nbsp; <a href="#">Disclosure</a></span>
+      <span style="color:var(--glow-green);">[ ENCRYPTED CONNECTION ]</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  /* --- Scrolled nav --- */
+  var nav = document.querySelector('nav');
+  if (nav) {
+    window.addEventListener('scroll', function() {
+      nav.classList.toggle('scrolled', window.scrollY > 30);
+    });
+  }
+
+  /* --- Mobile hamburger --- */
+  var hamburger = document.querySelector('.nav-hamburger');
+  var navLinks  = document.querySelector('.nav-links');
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', function() {
+      navLinks.classList.toggle('open');
+      var spans = hamburger.querySelectorAll('span');
+      if (navLinks.classList.contains('open')) {
+        spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+        spans[1].style.opacity   = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
+      } else {
+        spans.forEach(function(s) { s.style.transform = ''; s.style.opacity = ''; });
+      }
+    });
+    navLinks.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        navLinks.classList.remove('open');
+        hamburger.querySelectorAll('span').forEach(function(s) { s.style.transform = ''; s.style.opacity = ''; });
+      });
+    });
+  }
+
+  /* --- Terminal typewriter (home page only) --- */
+  var terminalBody = document.querySelector('.terminal-body');
+  if (terminalBody) {
+    var lines = [
+      { type: 'cmd', text: 'nullcastle --status' },
+      { type: 'out', text: 'Initializing NullCastle OS v4.2.0...', cls: 'info' },
+      { type: 'out', text: '[ OK ] Firewall: ACTIVE',               cls: 'success' },
+      { type: 'out', text: '[ OK ] Encryption: AES-256-GCM',        cls: 'success' },
+      { type: 'out', text: '[ OK ] ThreatDB: 2.4M signatures loaded', cls: 'success' },
+      { type: 'cmd', text: 'whoami' },
+      { type: 'out', text: 'nullcastle\\root - clearance: OMEGA',   cls: 'warn' },
+      { type: 'cmd', text: 'ls -la /services/' },
+      { type: 'out', text: 'drwx  breach-response/',                cls: '' },
+      { type: 'out', text: 'drwx  zero-trust-arch/',                cls: '' },
+      { type: 'out', text: 'drwx  dark-web-intel/',                 cls: '' },
+      { type: 'cmd', text: 'echo "The castle never sleeps."' },
+      { type: 'out', text: 'The castle never sleeps.',              cls: 'success' }
+    ];
+    var li = 0;
+    terminalBody.innerHTML = '';
+
+    function typeText(el, text, cb, speed) {
+      speed = speed || 30;
+      var i = 0;
+      var interval = setInterval(function() {
+        el.textContent += text[i++];
+        terminalBody.scrollTop = terminalBody.scrollHeight;
+        if (i >= text.length) { clearInterval(interval); if (cb) cb(); }
+      }, speed);
+    }
+
+    function nextLine() {
+      if (li >= lines.length) {
+        var cur = document.createElement('span');
+        cur.className = 'terminal-cursor';
+        terminalBody.appendChild(cur);
+        return;
+      }
+      var line = lines[li];
+      var row  = document.createElement('div');
+      row.className = 'terminal-line';
+      if (line.type === 'cmd') {
+        row.innerHTML = '<span class="terminal-prompt">nullcastle@sys:~$&nbsp;</span><span class="terminal-cmd"></span>';
+        terminalBody.appendChild(row);
+        typeText(row.querySelector('.terminal-cmd'), line.text, function() {
+          li++; setTimeout(nextLine, 200);
+        }, 35);
+      } else {
+        var cls = line.cls ? 'terminal-output ' + line.cls : 'terminal-output';
+        row.innerHTML = '<span class="' + cls + '"></span>';
+        terminalBody.appendChild(row);
+        typeText(row.querySelector('span'), line.text, function() {
+          li++; setTimeout(nextLine, 60);
+        }, 14);
+      }
+    }
+    setTimeout(nextLine, 700);
+  }
+
+  /* --- Fade-in cards (excludes person-cards and terminal children) --- */
+  if ('IntersectionObserver' in window) {
+    var fadeObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.style.opacity   = '1';
+          e.target.style.transform = 'translateY(0)';
+          fadeObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.team-card, .news-card, .product-card, .card').forEach(function(el) {
+      /* skip person-card wrappers and their children — they manage their own opacity */
+      if (el.classList.contains('person-card')) return;
+      if (el.classList.contains('person-card-front')) return;
+      if (el.classList.contains('person-card-back')) return;
+      if (el.closest && el.closest('.person-card')) return;
+      if (el.closest && el.closest('.terminal-body')) return;
+      el.style.opacity    = '0';
+      el.style.transform  = 'translateY(22px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      fadeObserver.observe(el);
+    });
+  }
+
+  /* --- Counter animation --- */
+  if ('IntersectionObserver' in window) {
+    document.querySelectorAll('.hero-stat .value').forEach(function(el) {
+      var raw     = el.textContent.trim();
+      var target  = parseFloat(raw);
+      var isFloat = raw.indexOf('.') !== -1;
+      var suffix  = raw.replace(/[\d.]/g, '');
+      if (isNaN(target)) return;
+      var duration  = 2000;
+      var startTime = null;
+      function update(now) {
+        if (!startTime) startTime = now;
+        var progress = Math.min((now - startTime) / duration, 1);
+        var eased    = 1 - Math.pow(1 - progress, 3);
+        el.textContent = (isFloat ? (eased * target).toFixed(1) : Math.floor(eased * target)) + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      var statObs = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) { requestAnimationFrame(update); statObs.disconnect(); }
+      }, { threshold: 0.5 });
+      statObs.observe(el);
+    });
+  }
+
+  /* --- Hero title glitch on hover --- */
+  var glitchEl = document.querySelector('.hero-title');
+  if (glitchEl) {
+    var glitchTimer;
+    glitchEl.addEventListener('mouseenter', function() {
+      clearTimeout(glitchTimer);
+      glitchEl.style.textShadow = '2px 0 #ff3c5a, -2px 0 #00d4ff';
+      glitchTimer = setTimeout(function() { glitchEl.style.textShadow = ''; }, 200);
+    });
+  }
+
+  /* --- News ticker duplicate --- */
+  var tickerInner = document.querySelector('.news-ticker-inner');
+  if (tickerInner) {
+    tickerInner.innerHTML += tickerInner.innerHTML;
+  }
+
+  /* --- Dossier cards: opacity crossfade via .pc-active ---
+       Both faces are position:absolute, same size.
+       Front starts opacity:1, back opacity:0.
+       Adding .pc-active swaps them via CSS transition.
+  ---------------------------------------------------------------- */
+  document.querySelectorAll('.person-card').forEach(function(card) {
+    if (!card.querySelector('.person-card-front')) return;
+
+    card.addEventListener('mouseenter', function() {
+      card.classList.add('pc-active');
+    });
+    card.addEventListener('mouseleave', function() {
+      card.classList.remove('pc-active');
+    });
+    card.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      card.classList.toggle('pc-active');
+    });
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.classList.toggle('pc-active');
+      }
+    });
+  });
+
+});
+</script>
+</body>
+</html>

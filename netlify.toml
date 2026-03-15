@@ -3,3 +3,9 @@
   to     = "/cipher-crown/:splat"
   status = 200
   force  = true
+
+[[redirects]]
+  from   = "https://hw2.cmpe272.rishikeshaluguvelli.me/*"
+  to     = "/hw2/:splat"
+  status = 200
+  force  = true
