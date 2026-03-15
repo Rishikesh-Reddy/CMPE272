@@ -1,0 +1,8 @@
+# Keep the build context small – never send these to the Docker daemon
+.git
+.gitignore
+*.md
+README*
+LICENSE*
+netlify.toml
+.env*
