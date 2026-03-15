@@ -15,7 +15,7 @@ function get_pdo(): ?PDO {
     if (!$host || !$name || !$user) return null;  
     try {
         return new PDO(
-            "pgsql:host={$host};port={$port};dbname={$name}",
+            "pgsql:host={$host};port={$port};dbname={$name};sslmode=require",
             $user, $pass,
             [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
               PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ]
