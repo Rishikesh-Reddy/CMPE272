@@ -12,7 +12,7 @@ function get_pdo(): ?PDO {
     $name = getenv('DB_NAME') ?: 'nullcastle';
     $user = getenv('DB_USER') ?: 'postgres';
     $pass = getenv('DB_PASS') ?: 'iamgrooooooooot';
-    echo "DB_HOST={$host}; DB_PORT={$port}; DB_NAME={$name}; DB_USER={$user}; DB_PASS=******\n";
+
     if (!$host || !$name || !$user) return null;  
     try {
         return new PDO(
@@ -22,7 +22,6 @@ function get_pdo(): ?PDO {
               PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ]
         );
     } catch (PDOException $e) {
-        echo "Database connection error: " . $e->getMessage() . "\n";
         return null;
     }
 }
