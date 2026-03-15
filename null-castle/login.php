@@ -6,25 +6,8 @@ if (!empty($_SESSION['nc_admin_authenticated'])) {
     exit;
 }
 
-function get_pdo(): ?PDO {
-    $host = getenv('DB_HOST') ?: 'localhost';
-    $port = getenv('DB_PORT') ?: '5432';
-    $name = getenv('DB_NAME') ?: 'nullcastle';
-    $user = getenv('DB_USER') ?: 'postgres';
-    $pass = getenv('DB_PASS') ?: 'iamgrooooooooot';
-
-    if (!$host || !$name || !$user) return null;  
-    try {
-        return new PDO(
-            "pgsql:host={$host};port={$port};dbname={$name};sslmode=require",
-            $user, $pass,
-            [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-              PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ]
-        );
-    } catch (PDOException $e) {
-        return null;
-    }
-}
+// Use shared DB connection helper
+require_once __DIR__ . '/db.php';
 
 $error   = '';
 $attempt = false;
