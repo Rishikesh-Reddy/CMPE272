@@ -1894,3 +1894,22 @@ footer {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ============================================================
+   ADMIN / LOGIN — shared utilities
+   ============================================================ */
+
+/* Blinking cursor used on login/admin pages */
+.blink {
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Page-level overrides for admin/login (extra top padding for banner) */
+.page-admin body,
+.page-login body {
+  padding-top: 0;
+}
