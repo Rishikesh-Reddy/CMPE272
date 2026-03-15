@@ -1,11 +1,5 @@
 [[redirects]]
-  from   = "https://ciphercrown.cmpe272.rishikeshaluguvelli.me/*"
-  to     = "/cipher-crown/:splat"
-  status = 200
-  force  = true
-
-[[redirects]]
-  from   = "https://hw2.cmpe272.rishikeshaluguvelli.me/*"
-  to     = "/hw2/:splat"
+  from   = "https://nullcastle.cmpe272.rishikeshaluguvelli.me/*"
+  to     = "/null-castle/:splat"
   status = 200
   force  = true
