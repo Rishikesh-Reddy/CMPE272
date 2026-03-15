@@ -12,7 +12,6 @@ function get_pdo(): ?PDO {
     $name = getenv('DB_NAME') ?: 'nullcastle';
     $user = getenv('DB_USER') ?: 'postgres';
     $pass = getenv('DB_PASS') ?: 'iamgrooooooooot';
-    echo "DB_HOST={$host}, DB_PORT={$port}, DB_NAME={$name}, DB_USER={$user}";
     if (!$host || !$name || !$user) return null;  
     try {
         return new PDO(
