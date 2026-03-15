@@ -4,5 +4,4 @@
 *.md
 README*
 LICENSE*
-netlify.toml
 .env*

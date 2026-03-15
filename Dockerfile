@@ -6,8 +6,7 @@ RUN adduser -D -H -u 1001 appuser
 
 WORKDIR /var/www/html
 
-COPY --chown=appuser:appuser index.html      ./
-COPY --chown=appuser:appuser null-castle/    ./null-castle/
+COPY --chown=appuser:appuser null-castle/    ./
 
 USER appuser
 
