@@ -19,7 +19,7 @@ if (isset($_SESSION['nc_last_active']) && (time() - $_SESSION['nc_last_active'])
 }
 $_SESSION['nc_last_active'] = time();
 
-if (isset($_GET['logout'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
     session_unset(); session_destroy();
     header('Location: login.php?reason=logout');
     exit;
@@ -84,11 +84,41 @@ $display_name = htmlspecialchars($_SESSION['nc_admin_display'] ?? $_SESSION['nc_
     .db-pill.error .db-pill-dot { background:var(--glow-red); }
 
     .admin-logout-btn {
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
       font-family: var(--font-mono); font-size: 0.62rem; color: var(--glow-red);
       border: 1px solid rgba(255,60,90,0.3); padding: 3px 10px; border-radius: 2px;
-      text-decoration: none; letter-spacing: 0.1em; transition: background 0.2s, box-shadow 0.2s; white-space: nowrap;
+      letter-spacing: 0.1em; transition: background 0.2s, box-shadow 0.2s; white-space: nowrap;
     }
     .admin-logout-btn:hover { background: rgba(255,60,90,0.08); box-shadow: 0 0 8px rgba(255,60,90,0.2); color: var(--glow-red); }
+    .admin-logout-btn:focus-visible {
+      outline: 2px solid rgba(255,60,90,0.55);
+      outline-offset: 2px;
+    }
+
+    .admin-logout-form {
+      margin: 0;
+    }
+
+    .footer-logout-btn {
+      appearance: none;
+      background: transparent;
+      border: 1px solid rgba(255,60,90,0.3);
+      border-radius: 2px;
+      color: var(--glow-red);
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      padding: 0.35rem 0.65rem;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .footer-logout-btn:hover { background: rgba(255,60,90,0.08); box-shadow: 0 0 8px rgba(255,60,90,0.2); }
+    .footer-logout-btn:focus-visible {
+      outline: 2px solid rgba(255,60,90,0.55);
+      outline-offset: 2px;
+    }
 
     .admin-hero { background: var(--deep); border-bottom: 1px solid var(--border); padding: 2.5rem 0 2rem; }
 
@@ -232,7 +262,9 @@ $display_name = htmlspecialchars($_SESSION['nc_admin_display'] ?? $_SESSION['nc_
         <span class="db-pill-dot"></span><span id="db-status-text">CONNECTING</span>
       </span>
     </div>
-    <a href="admin.php?logout=1" class="admin-logout-btn">[LOGOUT]</a>
+    <form method="post" action="admin.php" class="admin-logout-form">
+      <button type="submit" name="logout" value="1" class="admin-logout-btn" aria-label="Log out of admin session">[LOGOUT]</button>
+    </form>
   </div>
 </div>
 
@@ -323,7 +355,9 @@ $display_name = htmlspecialchars($_SESSION['nc_admin_display'] ?? $_SESSION['nc_
     <div class="footer-bottom" style="justify-content:space-between;flex-wrap:wrap;">
       <span>&copy; 2025 NullCastle Systems, Inc.</span>
       <span style="color:var(--glow-red);font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.14em;">[ADMIN SESSION ACTIVE]</span>
-      <a href="admin.php?logout=1" style="font-family:var(--font-mono);font-size:0.68rem;color:var(--glow-red);">Logout →</a>
+      <form method="post" action="admin.php" class="admin-logout-form">
+        <button type="submit" name="logout" value="1" class="footer-logout-btn" aria-label="Log out">Logout -&gt;</button>
+      </form>
     </div>
   </div>
 </footer>
