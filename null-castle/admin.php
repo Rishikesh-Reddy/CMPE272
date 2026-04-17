@@ -1,8 +1,8 @@
 <?php
 /**
  * NullCastle Systems — admin.php
- * Admin dashboard shell. Auth/session handled here in PHP;
- * user data is loaded client-side via GET /api/users.php.
+ * Admin dashboard. Auth/session handled in PHP.
+ * Own site users are fetched directly from the database server-side.
  */
 session_start();
 
@@ -26,6 +26,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
 }
 
 $display_name = htmlspecialchars($_SESSION['nc_admin_display'] ?? $_SESSION['nc_admin_user'] ?? 'admin');
+
+/* ----------------------------------------------------------
+ *  DB connection via shared helper (PostgreSQL).
+ *  All credentials and connection logic live in db.php.
+ * ---------------------------------------------------------- */
+require_once __DIR__ . '/db.php';
+
+/* ----------------------------------------------------------
+ *  Fetch users from the local PostgreSQL database.
+ *  Returns ['users' => [...], 'error' => null|string]
+ * ---------------------------------------------------------- */
+function fetch_local_users(): array {
+    $pdo = get_pdo();
+
+    if ($pdo === null) {
+        return ['users' => [], 'error' => 'Database connection failed. Check server logs.'];
+    }
+
+    try {
+        // to_char() is the PostgreSQL equivalent of MySQL's DATE_FORMAT()
+        $stmt = $pdo->query("
+            SELECT
+                id,
+                name,
+                email,
+                role,
+                department,
+                clearance,
+                status,
+                to_char(joined,     'YYYY-MM-DD') AS joined,
+                to_char(last_login, 'YYYY-MM-DD') AS last_login
+            FROM users
+            ORDER BY id ASC
+        ");
+
+        return ['users' => $stmt->fetchAll(), 'error' => null];
+
+    } catch (PDOException $e) {
+        error_log('[NullCastle admin.php] Query failed: ' . $e->getMessage());
+        return ['users' => [], 'error' => 'Failed to load users. Check server logs.'];
+    }
+}
+
+$db = fetch_local_users();
+$dbUsers  = $db['users'];
+$dbError  = $db['error'];
+
+/* Pre-compute stats server-side so they're available before JS runs */
+$totalUsers   = count($dbUsers);
+$activeUsers  = count(array_filter($dbUsers, fn($u) => strtoupper($u['status'] ?? '') === 'ACTIVE'));
+$suspUsers    = $totalUsers - $activeUsers;
+$clearanceLvl = count(array_unique(array_column($dbUsers, 'clearance')));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -273,7 +325,7 @@ $display_name = htmlspecialchars($_SESSION['nc_admin_display'] ?? $_SESSION['nc_
 <section class="admin-hero">
   <div class="container">
     <p style="font-family:var(--font-mono);font-size:0.7rem;color:var(--glow-red);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.5rem;">
-      &gt; GET /api/users.php
+      &gt; SELECT * FROM users — direct DB
     </p>
     <h1>User <span class="glow-text-green">Registry</span></h1>
     <div class="divider" style="background:linear-gradient(90deg,var(--glow-red),transparent);margin:0.9rem 0 0.7rem;"></div>
@@ -288,26 +340,33 @@ $display_name = htmlspecialchars($_SESSION['nc_admin_display'] ?? $_SESSION['nc_
 <section class="section" style="padding-top:2.5rem;">
   <div class="container">
 
-    <!-- API error block (hidden by default, shown on fetch failure) -->
+    <!-- DB error block (shown only when DB fetch failed) -->
+    <?php if ($dbError): ?>
+    <div id="api-error-block" class="db-error-block">
+      ⚠ [DB_ERROR] <?= htmlspecialchars($dbError) ?>
+      <br><span>Verify your database credentials and that the MySQL server is reachable from this host.</span>
+    </div>
+    <?php else: ?>
     <div id="api-error-block" class="db-error-block" style="display:none;"></div>
+    <?php endif; ?>
 
-    <!-- Stat cards — values populated by JS -->
+    <!-- Stat cards — pre-filled server-side, JS can update on refresh -->
     <div class="admin-stats">
       <div class="stat-card s-green">
         <div class="stat-label">Total Users</div>
-        <div class="stat-value" id="stat-total">—</div>
+        <div class="stat-value" id="stat-total"><?= $totalUsers ?></div>
       </div>
       <div class="stat-card s-cyan">
         <div class="stat-label">Active</div>
-        <div class="stat-value" id="stat-active">—</div>
+        <div class="stat-value" id="stat-active"><?= $activeUsers ?></div>
       </div>
       <div class="stat-card s-red">
         <div class="stat-label">Suspended</div>
-        <div class="stat-value" id="stat-suspended">—</div>
+        <div class="stat-value" id="stat-suspended"><?= $suspUsers ?></div>
       </div>
       <div class="stat-card s-amber">
         <div class="stat-label">Clearance Levels</div>
-        <div class="stat-value" id="stat-clearances">—</div>
+        <div class="stat-value" id="stat-clearances"><?= $clearanceLvl ?></div>
       </div>
     </div>
 
@@ -317,10 +376,10 @@ $display_name = htmlspecialchars($_SESSION['nc_admin_display'] ?? $_SESSION['nc_
       <button class="filter-btn active"      onclick="setFilter('all', this)">All</button>
       <button class="filter-btn"             onclick="setFilter('active', this)">Active</button>
       <button class="filter-btn f-suspended" onclick="setFilter('suspended', this)">Suspended</button>
-      <button class="btn-refresh" id="btn-refresh" onclick="loadUsers()" title="Reload from API">↻ Refresh</button>
+      <button class="btn-refresh" id="btn-refresh" onclick="loadUsers()" title="Reload from database">↻ Refresh</button>
     </div>
 
-    <!-- Table -->
+    <!-- Table — rows rendered server-side; JS re-renders on refresh -->
     <div class="table-wrap">
       <table class="u-table">
         <thead>
@@ -336,16 +395,55 @@ $display_name = htmlspecialchars($_SESSION['nc_admin_display'] ?? $_SESSION['nc_
           </tr>
         </thead>
         <tbody id="user-tbody">
-          <!-- Skeleton rows shown while the API fetch is in flight -->
-          <tr class="skeleton-row"><td><span class="skel" style="width:44px"></span></td><td><span class="skel" style="width:110px"></span></td><td><span class="skel" style="width:160px"></span></td><td><span class="skel" style="width:100px"></span></td><td><span class="skel" style="width:56px"></span></td><td><span class="skel" style="width:70px"></span></td><td><span class="skel" style="width:80px"></span></td><td><span class="skel" style="width:80px"></span></td></tr>
-          <tr class="skeleton-row"><td><span class="skel" style="width:44px"></span></td><td><span class="skel" style="width:130px"></span></td><td><span class="skel" style="width:140px"></span></td><td><span class="skel" style="width:90px"></span></td><td><span class="skel" style="width:56px"></span></td><td><span class="skel" style="width:70px"></span></td><td><span class="skel" style="width:80px"></span></td><td><span class="skel" style="width:80px"></span></td></tr>
-          <tr class="skeleton-row"><td><span class="skel" style="width:44px"></span></td><td><span class="skel" style="width:95px"></span></td><td><span class="skel" style="width:155px"></span></td><td><span class="skel" style="width:115px"></span></td><td><span class="skel" style="width:56px"></span></td><td><span class="skel" style="width:70px"></span></td><td><span class="skel" style="width:80px"></span></td><td><span class="skel" style="width:80px"></span></td></tr>
+          <?php if ($dbError): ?>
+            <tr><td colspan="8" class="no-results-row" style="color:var(--glow-red)">[DB_ERROR] Cannot load users — database unavailable.</td></tr>
+          <?php elseif (empty($dbUsers)): ?>
+            <tr><td colspan="8" class="no-results-row">[NULL] No users found in database.</td></tr>
+          <?php else: foreach ($dbUsers as $u):
+            $status   = strtoupper($u['status'] ?? 'UNKNOWN');
+            $clr      = strtoupper($u['clearance'] ?? '');
+            $sCls     = $status === 'ACTIVE' ? 'st-active' : 'st-suspended';
+            $idStr    = 'NC-' . str_pad($u['id'], 3, '0', STR_PAD_LEFT);
+          ?>
+            <tr
+              data-name="<?= htmlspecialchars(strtolower($u['name']       ?? '')) ?>"
+              data-status="<?= htmlspecialchars(strtolower($status)) ?>"
+              data-role="<?= htmlspecialchars(strtolower($u['role']       ?? '')) ?>"
+              data-dept="<?= htmlspecialchars(strtolower($u['department'] ?? '')) ?>"
+            >
+              <td class="td-id"><?= htmlspecialchars($idStr) ?></td>
+              <td class="td-name"><?= htmlspecialchars($u['name']  ?? '—') ?></td>
+              <td class="td-email">
+                <?php if (!empty($u['email'])): ?>
+                  <a href="mailto:<?= htmlspecialchars($u['email']) ?>"><?= htmlspecialchars($u['email']) ?></a>
+                <?php else: ?>—<?php endif; ?>
+              </td>
+              <td>
+                <div class="td-role"><?= htmlspecialchars($u['role']       ?? '—') ?></div>
+                <div class="td-dept"><?= htmlspecialchars($u['department'] ?? '') ?></div>
+              </td>
+              <td>
+                <span class="clr-badge" id="clr-<?= (int)$u['id'] ?>"><?= htmlspecialchars($clr) ?></span>
+              </td>
+              <td>
+                <span class="st-badge <?= $sCls ?>">
+                  <span class="st-dot"></span><?= htmlspecialchars($status) ?>
+                </span>
+              </td>
+              <td class="td-date"><?= htmlspecialchars($u['joined']     ?? '—') ?></td>
+              <td class="td-date"><?= htmlspecialchars($u['last_login'] ?? '—') ?></td>
+            </tr>
+          <?php endforeach; endif; ?>
         </tbody>
       </table>
     </div>
 
     <p style="font-family:var(--font-mono);font-size:0.62rem;color:var(--text-dim);margin-top:0.9rem;text-align:right;" id="footer-meta">
-      Loading… &nbsp;•&nbsp; via /api/users.php
+      <?php if (!$dbError): ?>
+        <?= $totalUsers ?> records &nbsp;•&nbsp; Fetched: <?= date('H:i:s') ?> &nbsp;•&nbsp; direct DB query
+      <?php else: ?>
+        DB unavailable &nbsp;•&nbsp; direct DB query
+      <?php endif; ?>
     </p>
 
   </div>
@@ -365,7 +463,7 @@ $display_name = htmlspecialchars($_SESSION['nc_admin_display'] ?? $_SESSION['nc_
 
 <script>
 // ─────────────────────────────────────────────────────────────────────────────
-//  Clearance colour maps (mirrors original PHP)
+//  Clearance colour maps
 // ─────────────────────────────────────────────────────────────────────────────
 var CLR_COLOR = {
   OMEGA: 'var(--glow-green)',
@@ -383,22 +481,37 @@ var CLR_BG = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  State
+//  State — seeded server-side so page is fully usable even without JS fetch
 // ─────────────────────────────────────────────────────────────────────────────
-var allUsers      = [];   // full list from API
+var allUsers = <?= json_encode(array_values($dbUsers), JSON_HEX_TAG | JSON_HEX_AMP) ?>;
 var currentFilter = 'all';
 
+// Apply clearance badge colours to server-rendered rows on first load
+(function applyBadgeColors() {
+  allUsers.forEach(function(u) {
+    var badge = document.getElementById('clr-' + u.id);
+    if (!badge) return;
+    var clr = (u.clearance || '').toUpperCase();
+    badge.style.color        = CLR_COLOR[clr] || 'var(--text-dim)';
+    badge.style.borderColor  = CLR_COLOR[clr] || 'var(--text-dim)';
+    badge.style.background   = CLR_BG[clr]    || 'rgba(96,117,144,0.08)';
+  });
+})();
+
+// DB pill — starts LIVE if data was returned, ERROR if not
+setDbPill(<?= $dbError ? "'error'" : "'live'" ?>);
+
 // ─────────────────────────────────────────────────────────────────────────────
-//  Fetch users from the API
+//  Refresh: re-fetches from the DB-backed API endpoint (1 retry on failure)
 // ─────────────────────────────────────────────────────────────────────────────
-function loadUsers() {
+function loadUsers(isRetry) {
   var btn = document.getElementById('btn-refresh');
   if (btn) btn.disabled = true;
 
-  // Show skeleton while loading
   setDbPill('connecting');
   document.getElementById('api-error-block').style.display = 'none';
-  renderSkeleton();
+
+  if (!isRetry) renderSkeleton();
 
   fetch('api/users.php', { credentials: 'same-origin' })
     .then(function(res) {
@@ -412,19 +525,28 @@ function loadUsers() {
       setDbPill('live');
       applyFilters(document.getElementById('user-search').value.toLowerCase().trim());
       document.getElementById('footer-meta').textContent =
-        data.meta.total + ' records\u00a0\u2022\u00a0Fetched: ' + new Date().toLocaleTimeString() + ' \u2022 /api/users.php';
+        (data.meta ? data.meta.total : allUsers.length) +
+        ' records\u00a0\u2022\u00a0Refreshed: ' + new Date().toLocaleTimeString() + ' \u2022 direct DB';
+      if (btn) btn.disabled = false;
     })
     .catch(function(err) {
       if (!err) return; // redirect already triggered
+
+      if (!isRetry) {
+        // ── First failure: wait 2 s then try once more ──
+        document.getElementById('footer-meta').textContent = 'Retrying…';
+        setTimeout(function(){ loadUsers(true); }, 2000);
+        return;
+      }
+
+      // ── Second failure: show graceful error ──
       setDbPill('error');
       var el = document.getElementById('api-error-block');
-      el.innerHTML = '[API_ERROR] ' + escHtml(err.message) +
-        '<br><span>Check that the API endpoint is reachable and the database is online.</span>';
+      el.innerHTML = '⚠ [DB_ERROR] ' + escHtml(err.message) +
+        '<br><span>Two consecutive fetch attempts failed. Check the database connection and try refreshing manually.</span>';
       el.style.display = '';
-      renderEmpty('[API_ERROR] Cannot load users — fetch from /api/users.php failed.');
-      document.getElementById('footer-meta').textContent = 'DB unavailable \u2022 /api/users.php';
-    })
-    .finally(function() {
+      // Restore previous server-rendered rows rather than wiping them
+      document.getElementById('footer-meta').textContent = 'DB unavailable \u2022 showing last known data';
       if (btn) btn.disabled = false;
     });
 }
@@ -433,7 +555,7 @@ function loadUsers() {
 //  Stats cards
 // ─────────────────────────────────────────────────────────────────────────────
 function updateStats(users, meta) {
-  var active    = users.filter(function(u){ return u.status === 'ACTIVE'; }).length;
+  var active    = users.filter(function(u){ return (u.status||'').toUpperCase() === 'ACTIVE'; }).length;
   var suspended = users.length - active;
   var clearances = new Set(users.map(function(u){ return u.clearance; })).size;
 
@@ -449,8 +571,8 @@ function updateStats(users, meta) {
 function setDbPill(state) {
   var pill = document.getElementById('db-status-pill');
   var text = document.getElementById('db-status-text');
-  pill.className = 'db-pill ' + (state === 'live' ? 'live' : 'error');
-  text.textContent = state === 'live' ? 'LIVE DB' : state === 'connecting' ? 'CONNECTING' : 'DB ERROR';
+  pill.className  = 'db-pill ' + (state === 'live' ? 'live' : state === 'connecting' ? 'live' : 'error');
+  text.textContent = state === 'live' ? 'LIVE DB' : state === 'connecting' ? 'CONNECTING…' : 'DB ERROR';
 }
 
 function renderSkeleton() {
@@ -471,11 +593,6 @@ function renderSkeleton() {
   tbody.innerHTML = html;
 }
 
-function renderEmpty(msg) {
-  document.getElementById('user-tbody').innerHTML =
-    '<tr><td colspan="8" class="no-results-row" style="color:var(--glow-red)">' + escHtml(msg) + '</td></tr>';
-}
-
 function renderRows(users) {
   var tbody = document.getElementById('user-tbody');
   if (!users.length) {
@@ -484,8 +601,8 @@ function renderRows(users) {
   }
   var html = '';
   users.forEach(function(u) {
-    var status  = u.status;
-    var clr     = u.clearance;
+    var status  = (u.status || 'UNKNOWN').toUpperCase();
+    var clr     = (u.clearance || '').toUpperCase();
     var color   = CLR_COLOR[clr]  || 'var(--text-dim)';
     var bg      = CLR_BG[clr]     || 'rgba(96,117,144,0.08)';
     var sCls    = status === 'ACTIVE' ? 'st-active' : 'st-suspended';
@@ -496,8 +613,8 @@ function renderRows(users) {
       ' data-status="' + escAttr(status.toLowerCase()) + '"' +
       ' data-role="'   + escAttr((u.role       || '').toLowerCase()) + '"' +
       ' data-dept="'   + escAttr((u.department || '').toLowerCase()) + '">' +
-      '<td class="td-id">' + escHtml(idStr) + '</td>' +
-      '<td class="td-name">' + escHtml(u.name || '') + '</td>' +
+      '<td class="td-id">'   + escHtml(idStr) + '</td>' +
+      '<td class="td-name">' + escHtml(u.name  || '') + '</td>' +
       '<td class="td-email"><a href="mailto:' + escAttr(u.email || '') + '">' + escHtml(u.email || '') + '</a></td>' +
       '<td><div class="td-role">' + escHtml(u.role || '') + '</div>' +
            '<div class="td-dept">' + escHtml(u.department || '') + '</div></td>' +
@@ -509,10 +626,19 @@ function renderRows(users) {
       '</tr>';
   });
   tbody.innerHTML = html;
+  // Re-apply colours after re-render
+  users.forEach(function(u) {
+    var badge = document.getElementById('clr-' + u.id);
+    if (!badge) return;
+    var clr = (u.clearance || '').toUpperCase();
+    badge.style.color       = CLR_COLOR[clr] || 'var(--text-dim)';
+    badge.style.borderColor = CLR_COLOR[clr] || 'var(--text-dim)';
+    badge.style.background  = CLR_BG[clr]    || 'rgba(96,117,144,0.08)';
+  });
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  Filtering (client-side, no extra round-trip)
+//  Client-side filtering (no round-trip)
 // ─────────────────────────────────────────────────────────────────────────────
 function setFilter(f, btn) {
   currentFilter = f;
@@ -522,15 +648,41 @@ function setFilter(f, btn) {
 }
 
 function applyFilters(q) {
-  var filtered = allUsers.filter(function(u) {
-    var statusOk = currentFilter === 'all' || u.status.toLowerCase() === currentFilter;
+  var rows = document.getElementById('user-tbody').querySelectorAll('tr[data-name]');
+  if (rows.length === 0) {
+    // Data was refreshed via JS — re-render from allUsers array
+    var filtered = allUsers.filter(function(u) {
+      var statusOk = currentFilter === 'all' || (u.status || '').toLowerCase() === currentFilter;
+      var searchOk = !q ||
+        (u.name       || '').toLowerCase().includes(q) ||
+        (u.role       || '').toLowerCase().includes(q) ||
+        (u.department || '').toLowerCase().includes(q);
+      return statusOk && searchOk;
+    });
+    renderRows(filtered);
+    return;
+  }
+  // Filter server-rendered rows directly (fast, no re-render)
+  var visible = 0;
+  rows.forEach(function(row) {
+    var statusOk = currentFilter === 'all' || row.dataset.status === currentFilter;
     var searchOk = !q ||
-      (u.name       || '').toLowerCase().includes(q) ||
-      (u.role       || '').toLowerCase().includes(q) ||
-      (u.department || '').toLowerCase().includes(q);
-    return statusOk && searchOk;
+      row.dataset.name.includes(q) ||
+      row.dataset.role.includes(q) ||
+      row.dataset.dept.includes(q);
+    var show = statusOk && searchOk;
+    row.style.display = show ? '' : 'none';
+    if (show) visible++;
   });
-  renderRows(filtered);
+  var noRow = document.getElementById('no-filter-row');
+  if (visible === 0 && rows.length > 0) {
+    if (!noRow) {
+      var tr = document.createElement('tr');
+      tr.id = 'no-filter-row';
+      tr.innerHTML = '<td colspan="8" class="no-results-row">[NULL] No users match that query.</td>';
+      document.getElementById('user-tbody').appendChild(tr);
+    } else { noRow.style.display = ''; }
+  } else if (noRow) { noRow.style.display = 'none'; }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -569,10 +721,8 @@ if (hamburger && navLinks) {
   });
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-//  Boot — fetch users immediately on page load
-// ─────────────────────────────────────────────────────────────────────────────
-loadUsers();
+// NOTE: No auto-fetch on boot — the table is already rendered server-side.
+// The ↻ Refresh button triggers loadUsers() if the admin wants live data.
 </script>
 </body>
 </html>

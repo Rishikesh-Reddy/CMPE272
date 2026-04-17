@@ -16,6 +16,8 @@
 
 /* =========================================================
  *  ★  CONFIGURE YOUR PARTNER ENDPOINTS HERE  ★
+ *  Null Castle (this site) is excluded — its users come
+ *  directly from the database in admin.php.
  * ========================================================= */
 $ALLIED_ENDPOINTS = [
     [
@@ -23,50 +25,24 @@ $ALLIED_ENDPOINTS = [
         'id'      => 'paradox',
         'url'     => 'https://paradoxsystems.vikramadithya.me/api/users.php',
         'color'   => 'cyan',
-        'timeout' => 1000,
+        'timeout' => 70,   // 70 s — covers a 60 s cold-start + headroom
     ],
-    [
-        'label'   => 'Null Castle',
-        'id'      => 'nullcastle',
-        'url'     => 'https://nullcastle.rishikeshaluguvelli.me/api/users.php',
-        'color'   => 'amber',
-        'timeout' => 1000,
-    ]
     // Add more partners here — just copy a block above.
 ];
 /* ========================================================= */
 
 
 /* ----------------------------------------------------------
- *  cURL helper — fetches one endpoint, returns decoded array
- *  or an error array on failure.
+ *  Parse / validate a raw cURL response body.
+ *  Returns the decoded array on success, or an error array.
  * ---------------------------------------------------------- */
-function fetch_allied_users(array $endpoint): array {
-    $ch = curl_init();
-    curl_setopt_array($ch, [
-        CURLOPT_URL            => $endpoint['url'],
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT        => $endpoint['timeout'] ?? 100,
-        CURLOPT_CONNECTTIMEOUT => 5,
-        CURLOPT_HTTPHEADER     => ['Accept: application/json'],
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_MAXREDIRS      => 3,
-        // Remove the next line in production if you have valid TLS certs:
-        // CURLOPT_SSL_VERIFYPEER => false,
-    ]);
-
-    $raw      = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $curlErr  = curl_error($ch);
-    curl_close($ch);
-
+function parse_allied_response(string|false $raw, int $httpCode, string $curlErr): array {
     if ($curlErr) {
         return ['__error' => 'cURL error: ' . $curlErr, '__code' => 0];
     }
     if ($httpCode !== 200) {
         return ['__error' => 'HTTP ' . $httpCode, '__code' => $httpCode];
     }
-
     $decoded = json_decode($raw, true);
     if (!is_array($decoded)) {
         return ['__error' => 'Invalid JSON response', '__code' => $httpCode];
@@ -74,23 +50,113 @@ function fetch_allied_users(array $endpoint): array {
     if (empty($decoded['users']) || !is_array($decoded['users'])) {
         return ['__error' => 'No "users" key in response', '__code' => $httpCode];
     }
-
-    return $decoded;   // success — has 'company', 'users', 'total', etc.
+    return $decoded;
 }
-
 
 /* ----------------------------------------------------------
- *  Fetch all endpoints (sequential; swap to parallel if needed)
+ *  Build a configured cURL handle for one endpoint.
  * ---------------------------------------------------------- */
-$alliedData = [];
-foreach ($ALLIED_ENDPOINTS as $ep) {
-    $result = fetch_allied_users($ep);
-    $alliedData[] = [
-        'meta'  => $ep,
-        'data'  => $result,
-        'error' => $result['__error'] ?? null,
-    ];
+function make_curl_handle(array $endpoint) {
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL            => $endpoint['url'],
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => $endpoint['timeout'] ?? 70,
+        CURLOPT_CONNECTTIMEOUT => $endpoint['timeout'] ?? 70,
+        CURLOPT_HTTPHEADER     => ['Accept: application/json'],
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_MAXREDIRS      => 3,
+    ]);
+    return $ch;
 }
+
+/* ----------------------------------------------------------
+ *  Run a single parallel multi-curl pass over a set of
+ *  endpoints. Returns raw results keyed by endpoint index.
+ * ---------------------------------------------------------- */
+function curl_multi_pass(array $endpoints): array {
+    $mh      = curl_multi_init();
+    $handles = [];
+
+    foreach ($endpoints as $i => $ep) {
+        $ch = make_curl_handle($ep);
+        curl_multi_add_handle($mh, $ch);
+        $handles[$i] = $ch;
+    }
+
+    $running = null;
+    do {
+        $status = curl_multi_exec($mh, $running);
+        if ($running) curl_multi_select($mh, 1.0);
+    } while ($running > 0 && $status === CURLM_OK);
+
+    $results = [];
+    foreach ($handles as $i => $ch) {
+        $results[$i] = [
+            'raw'      => curl_multi_getcontent($ch),
+            'httpCode' => (int) curl_getinfo($ch, CURLINFO_HTTP_CODE),
+            'curlErr'  => curl_error($ch),
+        ];
+        curl_multi_remove_handle($mh, $ch);
+        curl_close($ch);
+    }
+    curl_multi_close($mh);
+    return $results;
+}
+
+/* ----------------------------------------------------------
+ *  Fetch all allied endpoints in parallel.
+ *  Any endpoint that fails on the first attempt is retried
+ *  once after a short pause — gracefully handling cold-start
+ *  servers that need a moment to wake up.
+ * ---------------------------------------------------------- */
+function fetch_all_allied_users(array $endpoints): array {
+    // ── First pass: all endpoints simultaneously ──
+    $firstPass = curl_multi_pass($endpoints);
+
+    // Identify which failed and need a retry
+    $retryEndpoints = [];   // original endpoint configs
+    $retryIndexMap  = [];   // maps retry index → original index
+
+    foreach ($endpoints as $i => $ep) {
+        $r      = $firstPass[$i];
+        $parsed = parse_allied_response($r['raw'], $r['httpCode'], $r['curlErr']);
+        if (isset($parsed['__error'])) {
+            $retryIndexMap[count($retryEndpoints)] = $i;
+            $retryEndpoints[] = $ep;
+        }
+    }
+
+    // ── Second pass: retry failed endpoints in parallel (2 s delay) ──
+    $retryResults = [];
+    if (!empty($retryEndpoints)) {
+        sleep(2);   // brief pause before retry — gives cold-start servers a moment
+        $retryPass = curl_multi_pass($retryEndpoints);
+        foreach ($retryPass as $ri => $r) {
+            $retryResults[$retryIndexMap[$ri]] = $r;
+        }
+    }
+
+    // ── Assemble final results ──
+    $alliedData = [];
+    foreach ($endpoints as $i => $ep) {
+        // Use retry result if available, otherwise the first-pass result
+        $r      = $retryResults[$i] ?? $firstPass[$i];
+        $parsed = parse_allied_response($r['raw'], $r['httpCode'], $r['curlErr']);
+
+        $wasRetried = isset($retryResults[$i]);
+        $alliedData[] = [
+            'meta'       => $ep,
+            'data'       => $parsed,
+            'error'      => $parsed['__error'] ?? null,
+            'was_retried'=> $wasRetried,
+        ];
+    }
+
+    return $alliedData;
+}
+
+$alliedData = fetch_all_allied_users($ALLIED_ENDPOINTS);
 
 $display_name = htmlspecialchars($_SESSION['nc_admin_display'] ?? $_SESSION['nc_admin_user'] ?? 'admin');
 ?>
@@ -437,15 +503,33 @@ $display_name = htmlspecialchars($_SESSION['nc_admin_display'] ?? $_SESSION['nc_
         </div>
       </div>
 
-      <?php if ($entry['error']): ?>
+      <?php if ($entry['error']): 
+          $isColdStart = stripos($entry['error'], 'timed out') !== false
+                      || stripos($entry['error'], 'timeout')   !== false
+                      || stripos($entry['error'], 'couldnt connect') !== false
+                      || stripos($entry['error'], "couldn't connect") !== false;
+          $wasRetried  = $entry['was_retried'] ?? false;
+      ?>
         <div class="error-block">
-          <span class="error-icon">⚠</span>
+          <span class="error-icon"><?= $isColdStart ? '🕐' : '⚠' ?></span>
           <div>
-            <div>[FETCH_ERROR] <?= htmlspecialchars($entry['error']) ?></div>
+            <?php if ($isColdStart): ?>
+              <div style="color:var(--glow-amber);">[COLD_START] Node did not respond within the timeout window<?= $wasRetried ? ' (tried twice)' : '' ?>.</div>
+              <div style="margin-top:0.35rem; color:var(--text-dim); font-size:0.65rem;">
+                This node runs on a cold-start server and can take up to ~60 s to wake.
+                <?= $wasRetried
+                    ? 'Both attempts timed out. The node may still be booting — reload in a moment.'
+                    : 'A retry was not needed. Reload the page to try again.' ?>
+              </div>
+            <?php else: ?>
+              <div>[FETCH_ERROR] <?= htmlspecialchars($entry['error']) ?><?= $wasRetried ? ' — also failed on retry' : '' ?></div>
+              <div style="margin-top:0.4rem; color:var(--text-dim);">
+                <?= $wasRetried
+                    ? 'Two consecutive attempts failed. Check that the remote host is online and returns valid JSON.'
+                    : 'Check that the remote host is online and the endpoint returns valid JSON.' ?>
+              </div>
+            <?php endif; ?>
             <div class="error-url">&gt; endpoint: <?= htmlspecialchars($meta['url']) ?></div>
-            <div style="margin-top:0.4rem; color:var(--text-dim);">
-              Check that the remote host is online and the endpoint returns valid JSON.
-            </div>
           </div>
         </div>
 
