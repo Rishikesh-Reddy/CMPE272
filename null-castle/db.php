@@ -13,7 +13,6 @@ function get_pdo(): ?PDO {
     $pass = getenv('DB_PASS') ?: 'iamgrooooooooot';
 
     if (!$host || !$name || !$user) return null;
-    echo "Attempting DB connection to {$host}:{$port}/{$name} as {$user}...";
     try {
         return new PDO(
             "pgsql:host={$host};port={$port};dbname={$name}",
