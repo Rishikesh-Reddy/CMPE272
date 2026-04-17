@@ -15,31 +15,11 @@
 
 session_start();
 
-// ── 1. Always respond as JSON ────────────────────────────────────────────────
 header('Content-Type: application/json; charset=utf-8');
 // Prevent browsers / proxies from caching sensitive data
 header('Cache-Control: no-store, no-cache, must-revalidate');
 header('Pragma: no-cache');
 
-// ── 2. Auth guard ────────────────────────────────────────────────────────────
-if (empty($_SESSION['nc_admin_authenticated'])) {
-    http_response_code(401);
-    echo json_encode(['error' => 'Unauthorised — admin session required.']);
-    exit;
-}
-
-// Session timeout (mirrors admin.php)
-$timeout = 30 * 60;
-if (isset($_SESSION['nc_last_active']) && (time() - $_SESSION['nc_last_active']) > $timeout) {
-    session_unset();
-    session_destroy();
-    http_response_code(401);
-    echo json_encode(['error' => 'Session expired.']);
-    exit;
-}
-$_SESSION['nc_last_active'] = time();
-
-// ── 3. Only allow GET ────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405);
     header('Allow: GET');
@@ -47,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit;
 }
 
-// ── 4. Connect to DB ─────────────────────────────────────────────────────────
 require_once __DIR__ . '/../db.php';
 
 $pdo = get_pdo();
@@ -57,7 +36,6 @@ if (!$pdo) {
     exit;
 }
 
-// ── 5. Parse & sanitise query params ─────────────────────────────────────────
 $allowed_statuses    = ['active', 'suspended'];
 $allowed_clearances  = ['OMEGA', 'ALPHA', 'SIGMA', 'DELTA', 'GHOST'];
 
@@ -77,8 +55,6 @@ if ($filter_clearance && !in_array($filter_clearance, $allowed_clearances, true)
     echo json_encode(['error' => 'Invalid clearance filter. Use: OMEGA, ALPHA, SIGMA, DELTA, GHOST.']);
     exit;
 }
-
-// ── 6. Build query ────────────────────────────────────────────────────────────
 $conditions = [];
 $params     = [];
 
@@ -131,7 +107,6 @@ try {
     exit;
 }
 
-// ── 7. Shape the response ─────────────────────────────────────────────────────
 $response = [
     'meta' => [
         'total'       => $total,
