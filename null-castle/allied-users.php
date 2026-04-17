@@ -24,6 +24,13 @@ $ALLIED_ENDPOINTS = [
         'url'     => 'https://paradoxsystems.vikramadithya.me/api/users.php',
         'color'   => 'cyan',
         'timeout' => 8,
+    ],
+    [
+        'label'   => 'Null Castle',
+        'id'      => 'nullcastle',
+        'url'     => 'https://nullcastle.rishikeshaluguvelli.me/api/users.php',
+        'color'   => 'amber',
+        'timeout' => 8,
     ]
     // Add more partners here — just copy a block above.
 ];
