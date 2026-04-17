@@ -122,6 +122,7 @@ $mostVisited = array_slice(array_keys($validHits), 0, 5);
       <li><a href="products.php"  data-num="02" class="active">Services</a></li>
       <li><a href="news.html"     data-num="03">News</a></li>
       <li><a href="contact.php"   data-num="04">Contact</a></li>
+      <li><a href="allied-users.php">⬛ Allied Networks</a></li>
       <li><a href="login.php"     data-num="05" style="color:var(--glow-red)">⬛ Admin</a></li>
     </ul>
     <div class="nav-status"><div class="nav-status-dot"></div>SYS:ONLINE</div>

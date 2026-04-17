@@ -236,6 +236,7 @@ $display_name = htmlspecialchars($_SESSION['nc_admin_display'] ?? $_SESSION['nc_
       <li><a href="products.html" data-num="02">Services</a></li>
       <li><a href="news.html"     data-num="03">News</a></li>
       <li><a href="contact.php"   data-num="04">Contact</a></li>
+      <li><a href="allied-users.php">⬛ Allied Networks</a></li>
       <li><a href="admin.php"     data-num="05" class="active" style="color:var(--glow-red)">Admin</a></li>
     </ul>
     <div class="nav-status" style="color:var(--glow-red); border-color:rgba(255,60,90,0.35);">
