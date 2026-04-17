@@ -23,14 +23,14 @@ $ALLIED_ENDPOINTS = [
         'id'      => 'paradox',
         'url'     => 'https://paradoxsystems.vikramadithya.me/api/users.php',
         'color'   => 'cyan',
-        'timeout' => 8,
+        'timeout' => 1000,
     ],
     [
         'label'   => 'Null Castle',
         'id'      => 'nullcastle',
         'url'     => 'https://nullcastle.rishikeshaluguvelli.me/api/users.php',
         'color'   => 'amber',
-        'timeout' => 8,
+        'timeout' => 1000,
     ]
     // Add more partners here — just copy a block above.
 ];
@@ -46,7 +46,7 @@ function fetch_allied_users(array $endpoint): array {
     curl_setopt_array($ch, [
         CURLOPT_URL            => $endpoint['url'],
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT        => $endpoint['timeout'] ?? 8,
+        CURLOPT_TIMEOUT        => $endpoint['timeout'] ?? 100,
         CURLOPT_CONNECTTIMEOUT => 5,
         CURLOPT_HTTPHEADER     => ['Accept: application/json'],
         CURLOPT_FOLLOWLOCATION => true,
