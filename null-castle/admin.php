@@ -57,7 +57,7 @@ function fetch_local_users(): array {
                 status,
                 to_char(joined,     'YYYY-MM-DD') AS joined,
                 to_char(last_login, 'YYYY-MM-DD') AS last_login
-            FROM users
+            FROM site_users;
             ORDER BY id ASC
         ");
 
